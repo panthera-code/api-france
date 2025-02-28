@@ -55,7 +55,7 @@ export default class MunicipalityService {
     async updatedMunicipality(id, municipality) {
 
         const validatedMunicipality = validateMunicipality(municipality)
-        const transformedMunicipality = { id: validatedMunicipality.code, name: validatedMunicipality.nom, department_id: validatedMunicipality.codeDepartement }
+        const transformedMunicipality = { id: validatedMunicipality.code, name: validatedMunicipality.nom, postalCodes: arrayToString(validatedMunicipality.codesPostaux), coordinates: arrayToString(validatedMunicipality.mairie.coordinates), population: validatedMunicipality.population || 0, department_id: validatedMunicipality.codeDepartement }
         await this.database.query('UPDATE municipalities SET ? WHERE id = ?', [transformedMunicipality, id])
 
         return { message: `Municipality with id ${id} updated successfully`, data: { id, ...transformedMunicipality } }
